@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="860" viewBox="0 0 1060 860" font-family="Helvetica, Arial, sans-serif">
+<rect width="1060" height="860" fill="#ffffff"/>
+<text x="30" y="34" font-size="22" font-weight="bold" fill="#222">Project 5 · 5 V Arduino → Everlight ELF-415UBWA (blue, common cathode)</text>
+<rect x="70" y="60" width="160" height="560" rx="10" fill="#0b7a8a" stroke="#06525c" stroke-width="2"/>
+<text x="150.0" y="90" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">5 V Arduino</text>
+<text x="150.0" y="110" font-size="13" fill="#d8f3f6" text-anchor="middle">(Uno / Nano)</text>
+<rect x="30" y="322.0" width="40" height="36" fill="#999" stroke="#666"/>
+<text x="50" y="345.0" font-size="12" fill="#fff" text-anchor="middle">USB</text>
+<text x="45" y="380.0" font-size="12" fill="#444" text-anchor="middle">to the Pi</text>
+<rect x="650" y="300" width="350" height="140" rx="6" fill="#2b2b2b" stroke="#111" stroke-width="2"/>
+<text x="825.0" y="394.0" font-size="68" font-family="Courier New, monospace" font-weight="bold" fill="#3b82f6" text-anchor="middle" letter-spacing="6">8.8.8.8.</text>
+<text x="825.0" y="238" font-size="13" fill="#444" text-anchor="middle"></text>
+<line x1="680" y1="280" x2="680" y2="300" stroke="#888" stroke-width="3"/>
+<text x="680" y="316" font-size="12" fill="#fff" text-anchor="middle">16</text>
+<text x="680" y="330" font-size="10" fill="#9ec5ff" text-anchor="middle">B</text>
+<line x1="720" y1="280" x2="720" y2="300" stroke="#888" stroke-width="3"/>
+<text x="720" y="316" font-size="12" fill="#fff" text-anchor="middle">15</text>
+<text x="720" y="330" font-size="10" fill="#9ec5ff" text-anchor="middle">G</text>
+<line x1="760" y1="280" x2="760" y2="300" stroke="#888" stroke-width="3"/>
+<text x="760" y="316" font-size="12" fill="#fff" text-anchor="middle">14</text>
+<text x="760" y="330" font-size="10" fill="#9ec5ff" text-anchor="middle">A</text>
+<line x1="800" y1="280" x2="800" y2="300" stroke="#888" stroke-width="3"/>
+<text x="800" y="316" font-size="12" fill="#fff" text-anchor="middle">13</text>
+<text x="800" y="330" font-size="10" fill="#9ec5ff" text-anchor="middle">C</text>
+<line x1="840" y1="280" x2="840" y2="300" stroke="#888" stroke-width="3"/>
+<text x="840" y="316" font-size="12" fill="#fff" text-anchor="middle">12</text>
+<text x="840" y="330" font-size="10" fill="#777" text-anchor="middle">colon</text>
+<line x1="880" y1="280" x2="880" y2="300" stroke="#888" stroke-width="3"/>
+<text x="880" y="316" font-size="12" fill="#fff" text-anchor="middle">11</text>
+<text x="880" y="330" font-size="10" fill="#9ec5ff" text-anchor="middle">F</text>
+<line x1="920" y1="280" x2="920" y2="300" stroke="#888" stroke-width="3"/>
+<text x="920" y="316" font-size="12" fill="#fff" text-anchor="middle">10</text>
+<text x="920" y="330" font-size="10" fill="#777" text-anchor="middle">L3</text>
+<line x1="960" y1="280" x2="960" y2="300" stroke="#888" stroke-width="3"/>
+<text x="960" y="316" font-size="12" fill="#fff" text-anchor="middle">9</text>
+<text x="960" y="330" font-size="10" fill="#777" text-anchor="middle">L3</text>
+<line x1="680" y1="440" x2="680" y2="460" stroke="#888" stroke-width="3"/>
+<text x="680" y="432" font-size="12" fill="#fff" text-anchor="middle">1</text>
+<text x="680" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">dig 1</text>
+<line x1="720" y1="440" x2="720" y2="460" stroke="#888" stroke-width="3"/>
+<text x="720" y="432" font-size="12" fill="#fff" text-anchor="middle">2</text>
+<text x="720" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">dig 2</text>
+<line x1="760" y1="440" x2="760" y2="460" stroke="#888" stroke-width="3"/>
+<text x="760" y="432" font-size="12" fill="#fff" text-anchor="middle">3</text>
+<text x="760" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">D</text>
+<line x1="800" y1="440" x2="800" y2="460" stroke="#888" stroke-width="3"/>
+<text x="800" y="432" font-size="12" fill="#fff" text-anchor="middle">4</text>
+<text x="800" y="418" font-size="10" fill="#777" text-anchor="middle">colon</text>
+<line x1="840" y1="440" x2="840" y2="460" stroke="#888" stroke-width="3"/>
+<text x="840" y="432" font-size="12" fill="#fff" text-anchor="middle">5</text>
+<text x="840" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">E</text>
+<line x1="880" y1="440" x2="880" y2="460" stroke="#888" stroke-width="3"/>
+<text x="880" y="432" font-size="12" fill="#fff" text-anchor="middle">6</text>
+<text x="880" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">dig 3</text>
+<line x1="920" y1="440" x2="920" y2="460" stroke="#888" stroke-width="3"/>
+<text x="920" y="432" font-size="12" fill="#fff" text-anchor="middle">7</text>
+<text x="920" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">DP</text>
+<line x1="960" y1="440" x2="960" y2="460" stroke="#888" stroke-width="3"/>
+<text x="960" y="432" font-size="12" fill="#fff" text-anchor="middle">8</text>
+<text x="960" y="418" font-size="10" fill="#9ec5ff" text-anchor="middle">dig 4</text>
+<polyline points="230,150 450,150 450,130 760,130 760,280" fill="none" stroke="#e6194b" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="150" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="155" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D2</text>
+<text x="180" y="155" font-size="11" fill="#d8f3f6" text-anchor="end">A</text>
+<circle cx="760" cy="280" r="4" fill="#e6194b"/>
+<rect x="270" y="141" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="141" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="141" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="141" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="141" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,190 490,190 490,190 680,190 680,280" fill="none" stroke="#f58231" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="190" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="195" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D3</text>
+<text x="180" y="195" font-size="11" fill="#d8f3f6" text-anchor="end">B</text>
+<circle cx="680" cy="280" r="4" fill="#f58231"/>
+<rect x="270" y="181" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="181" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="181" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="181" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="181" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,230 430,230 430,100 800,100 800,280" fill="none" stroke="#d4a017" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="230" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="235" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D4</text>
+<text x="180" y="235" font-size="11" fill="#d8f3f6" text-anchor="end">C</text>
+<circle cx="800" cy="280" r="4" fill="#d4a017"/>
+<rect x="270" y="221" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="221" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="221" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="221" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="221" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,270 590,270 590,570 760,570 760,460" fill="none" stroke="#3cb44b" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="270" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="275" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D5</text>
+<text x="180" y="275" font-size="11" fill="#d8f3f6" text-anchor="end">D</text>
+<circle cx="760" cy="460" r="4" fill="#3cb44b"/>
+<rect x="270" y="261" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="261" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="261" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="261" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="261" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,310 570,310 570,610 840,610 840,460" fill="none" stroke="#008080" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="310" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="315" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D6</text>
+<text x="180" y="315" font-size="11" fill="#d8f3f6" text-anchor="end">E</text>
+<circle cx="840" cy="460" r="4" fill="#008080"/>
+<rect x="270" y="301" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="301" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="301" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="301" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="301" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,350 410,350 410,70 880,70 880,280" fill="none" stroke="#4363d8" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="350" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="355" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D7</text>
+<text x="180" y="355" font-size="11" fill="#d8f3f6" text-anchor="end">F</text>
+<circle cx="880" cy="280" r="4" fill="#4363d8"/>
+<rect x="270" y="341" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="341" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="341" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="341" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="341" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,390 470,390 470,160 720,160 720,280" fill="none" stroke="#911eb4" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="390" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="395" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D8</text>
+<text x="180" y="395" font-size="11" fill="#d8f3f6" text-anchor="end">G</text>
+<circle cx="720" cy="280" r="4" fill="#911eb4"/>
+<rect x="270" y="381" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="381" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="381" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="381" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="381" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,430 530,430 530,650 920,650 920,460" fill="none" stroke="#f032e6" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="430" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="435" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">D9</text>
+<text x="180" y="435" font-size="11" fill="#d8f3f6" text-anchor="end">DP</text>
+<circle cx="920" cy="460" r="4" fill="#f032e6"/>
+<rect x="270" y="421" width="80" height="18" rx="8" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="286" y="421" width="7" height="18" fill="#f2d600"/>
+<rect x="300" y="421" width="7" height="18" fill="#7b2fbe"/>
+<rect x="314" y="421" width="7" height="18" fill="#7a4a1e"/>
+<rect x="334" y="421" width="7" height="18" fill="#c9a227"/>
+<polyline points="230,470 630,470 630,490 680,490 680,460" fill="none" stroke="#555555" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="470" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="475" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">A0</text>
+<text x="180" y="475" font-size="11" fill="#d8f3f6" text-anchor="end">digit 1</text>
+<circle cx="680" cy="460" r="4" fill="#555555"/>
+<text x="310" y="464" font-size="11" fill="#666" text-anchor="middle">no resistor</text>
+<polyline points="230,510 610,510 610,530 720,530 720,460" fill="none" stroke="#8b4513" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="510" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="515" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">A1</text>
+<text x="180" y="515" font-size="11" fill="#d8f3f6" text-anchor="end">digit 2</text>
+<circle cx="720" cy="460" r="4" fill="#8b4513"/>
+<text x="310" y="504" font-size="11" fill="#666" text-anchor="middle">no resistor</text>
+<polyline points="230,550 550,550 550,630 880,630 880,460" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="550" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="555" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">A2</text>
+<text x="180" y="555" font-size="11" fill="#d8f3f6" text-anchor="end">digit 3</text>
+<circle cx="880" cy="460" r="4" fill="#000000"/>
+<text x="310" y="544" font-size="11" fill="#666" text-anchor="middle">no resistor</text>
+<polyline points="230,590 510,590 510,670 960,670 960,460" fill="none" stroke="#808000" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="230" cy="590" r="5" fill="#ffd54a" stroke="#06525c"/>
+<text x="218" y="595" font-size="15" font-weight="bold" fill="#fff" text-anchor="end">A3</text>
+<text x="180" y="595" font-size="11" fill="#d8f3f6" text-anchor="end">digit 4</text>
+<circle cx="960" cy="460" r="4" fill="#808000"/>
+<text x="310" y="584" font-size="11" fill="#666" text-anchor="middle">no resistor</text>
+<rect x="30" y="710" width="560" height="120" rx="8" fill="#f6f6f6" stroke="#ddd"/>
+<text x="45" y="734" font-size="15" font-weight="bold" fill="#222">8 × 470 Ω resistor (one per segment wire)</text>
+<rect x="50" y="750" width="120" height="26" rx="12" fill="#e8d2a6" stroke="#8a7350"/>
+<rect x="72" y="750" width="10" height="26" fill="#f2d600"/>
+<rect x="92" y="750" width="10" height="26" fill="#7b2fbe"/>
+<rect x="112" y="750" width="10" height="26" fill="#7a4a1e"/>
+<rect x="144" y="750" width="10" height="26" fill="#c9a227"/>
+<text x="190" y="768" font-size="14" fill="#222">4 bands: yellow · violet · brown · gold</text>
+<text x="45" y="800" font-size="13" fill="#333">5 bands (blue body, 1 %): yellow · violet · black · black · brown</text>
+<text x="45" y="820" font-size="13" fill="#333">Too dim? Use 330 Ω: orange · orange · brown · gold</text>
+<text x="620" y="800" font-size="13" fill="#333">Pin 1 = bottom left, display seen from the front.</text>
+<text x="620" y="760" font-size="13" fill="#333">Pins 4, 9, 10, 12 (colon, top dot): leave free.</text>
+<text x="620" y="820" font-size="13" fill="#333">Power comes over USB from the Pi. No 12 V anywhere.</text>
+</svg>
