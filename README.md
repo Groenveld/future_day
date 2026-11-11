@@ -12,3 +12,5 @@ Projects for a Zukunftstag: a day of building things with code, the cloud, a Ras
 | [project6](project6/) | Cloud knob: a rotary encoder synced with AWS IoT Core | bonus |
 
 Hardware: Raspberry Pi 5 with a Logitech C920 webcam, Arduino Nano 33 BLE Sense, Arduino Uno, RobotDyn TM1637 display, KY-040 rotary encoder.
+
+How long each project takes to build and test beforehand: [ESTIMATES.md](ESTIMATES.md).
