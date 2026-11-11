@@ -33,12 +33,12 @@ The Arduino answers with `COUNT 42`.
 
 | Display | Arduino Uno |
 |---|---|
-| CLK | 2 |
-| DIO | 3 |
+| CLK | 3 |
+| DIO | 2 |
 | VCC | 5V |
 | GND | GND |
 
-The Uno runs on 5 V, so VCC goes to **5V**.
+The Uno runs on 5 V, so VCC goes to **5V**. The picture is in `wiring.svg`.
 
 If you use the Nano 33 BLE Sense instead, connect VCC to **3.3V**. The module pulls CLK and DIO up to VCC, and the Nano 33 BLE's pins only take 3.3 V.
 
@@ -61,7 +61,7 @@ Brightness: `display.setBrightness(5)` in `setup()`, from 0 (dim) to 7 (bright).
 
 ## Alternative: the bare Everlight display
 
-There is also a bare blue Everlight ELF-415UBWA display: 16 pins, common cathode. It needs 12 wires and 8 × 470 Ω resistors and runs from a **5 V Arduino** (Uno or Nano). The wiring is in `wiring.svg`. The program would need the `SevSeg` library and pin setup again.
+There is also a bare blue Everlight ELF-415UBWA display: 16 pins, common cathode. It needs 12 wires and 8 × 470 Ω resistors and runs from a **5 V Arduino** (Uno or Nano). The program would need the `SevSeg` library and pin setup again.
 
 ## To do
 

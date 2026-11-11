@@ -8,15 +8,15 @@
 // The Arduino answers with "COUNT 42" so the sender knows it arrived.
 //
 // Wiring (4 wires):
-//   display CLK -> D2
-//   display DIO -> D3
+//   display CLK -> D3
+//   display DIO -> D2
 //   display VCC -> 5V on the Uno, 3.3V on the Nano 33 BLE (its pins only take 3.3 V)
 //   display GND -> GND
 
 #include <TM1637Display.h>
 
-const int CLK_PIN = 2;
-const int DIO_PIN = 3;
+const int CLK_PIN = 3;
+const int DIO_PIN = 2;
 
 TM1637Display display(CLK_PIN, DIO_PIN);
 long photos = 0;
