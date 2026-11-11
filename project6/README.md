@@ -43,7 +43,7 @@ The RobotDyn display from project 5 shows the knob's value.
 | + | 5V | | GND | GND |
 | GND | GND | | | |
 
-The Uno has only one 5V pin, so share it. Use the breadboard's + rail, or 5V on the ICSP header (pin 2, next to the dot).
+The Uno has only one 5V pin, so share it. Use the breadboard's + rail, or 5V on the ICSP header (pin 2, next to the dot). The picture is in `wiring.svg`.
 
 ## Arduino commands (over USB, 9600 baud)
 
