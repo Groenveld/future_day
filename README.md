@@ -1,16 +1,35 @@
-# React + Vite
+# Project 1: His own website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Zukunftstag project 1 of 4 · about 30 minutes · warm-up**
 
-Currently, two official plugins are available:
+He builds his own web page, and Terraform puts it on the internet in an S3 bucket. He opens it on his phone. Then he runs `terraform destroy` to make it disappear and `terraform apply` to bring it back.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**The idea:** code can create infrastructure.
 
-## React Compiler
+## The page
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The page is a React app made with Vite. It starts from the Vite React template and is built up following the book *The Road to React*, up to the section "Props Handling (Advanced)".
 
-## Expanding the Oxlint configuration
+```
+npm install
+npm run dev      # open http://localhost:5173
+npm run build    # writes the finished site to dist/
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Putting it online (to do)
+
+Terraform will:
+
+1. create an S3 bucket set up for static website hosting
+2. upload the contents of `dist/`
+3. print the website address so he can open it on his phone
+
+```
+npm run build
+terraform init
+terraform apply      # the site appears
+terraform destroy    # the site is gone
+terraform apply      # and it's back
+```
+
+Region: `eu-central-1`.
