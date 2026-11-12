@@ -1,0 +1,117 @@
+#!/bin/bash
+# Runs once on the new server when it boots for the first time.
+# Terraform fills in the $${...} parts from settings.auto.tfvars.
+# Log on the server: /var/log/cloud-init-output.log
+set -euxo pipefail
+
+useradd --system --create-home --home-dir /opt/minecraft minecraft || true
+cd /opt/minecraft
+
+cat > /opt/minecraft/settings.json <<'SETTINGS_END'
+${jsonencode({
+  minecraft_version = minecraft_version
+  properties        = properties
+  players           = players
+  operators         = operators
+})}
+SETTINGS_END
+
+# 1. Find the Minecraft version, download the server and write all settings files
+cat > /opt/minecraft/setup.py <<'PYTHON_END'
+import hashlib, json, time, urllib.request
+
+def download(url, tries=5):
+    for attempt in range(1, tries + 1):
+        try:
+            with urllib.request.urlopen(url, timeout=120) as r:
+                return r.read()
+        except Exception as error:
+            if attempt == tries or getattr(error, "code", None) == 404:
+                raise
+            print(f"Download failed ({error}), trying again...")
+            time.sleep(5)
+
+def get_json(url):
+    return json.loads(download(url))
+
+settings = json.load(open("settings.json"))
+
+manifest = get_json("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
+wanted = settings["minecraft_version"]
+if wanted == "latest":
+    wanted = manifest["latest"]["release"]
+version = get_json(next(v["url"] for v in manifest["versions"] if v["id"] == wanted))
+server = version["downloads"]["server"]
+
+jar = download(server["url"])
+if hashlib.sha1(jar).hexdigest() != server["sha1"]:
+    raise SystemExit("server.jar download is broken")
+open("server.jar", "wb").write(jar)
+
+open("java-version.txt", "w").write(str(version.get("javaVersion", {}).get("majorVersion", 21)))
+open("minecraft-version.txt", "w").write(wanted)
+
+with open("server.properties", "w", encoding="utf-8") as f:
+    for key, value in settings["properties"].items():
+        f.write(f"{key}={value}\n")
+
+open("eula.txt", "w").write("eula=true\n")
+
+# Minecraft names -> the player IDs the server needs
+def lookup(name):
+    try:
+        p = get_json(f"https://api.mojang.com/users/profiles/minecraft/{name}")
+        i = p["id"]
+        return {"uuid": f"{i[:8]}-{i[8:12]}-{i[12:16]}-{i[16:20]}-{i[20:]}", "name": p["name"]}
+    except Exception as error:
+        print(f"Could not find the Minecraft player {name!r}: {error}")
+        return None
+
+players = [p for p in map(lookup, settings["players"]) if p]
+json.dump(players, open("whitelist.json", "w"), indent=2)
+
+ops = [dict(p, level=4, bypassesPlayerLimit=True)
+       for p in players if p["name"].lower() in (o.lower() for o in settings["operators"])]
+json.dump(ops, open("ops.json", "w"), indent=2)
+PYTHON_END
+
+python3 setup.py
+
+# 2. Install the Java version this Minecraft needs (Amazon Corretto).
+#    First from the Amazon Linux packages, otherwise straight from corretto.aws.
+JAVA_VERSION=$(cat java-version.txt)
+if dnf install -y "java-$${JAVA_VERSION}-amazon-corretto-headless"; then
+  ln -sfn "/usr/lib/jvm/java-$${JAVA_VERSION}-amazon-corretto" /opt/java
+else
+  curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 -o /tmp/java.tar.gz \
+    "https://corretto.aws/downloads/latest/amazon-corretto-$${JAVA_VERSION}-aarch64-linux-jdk.tar.gz"
+  mkdir -p /opt/java
+  tar -xzf /tmp/java.tar.gz -C /opt/java --strip-components=1
+  rm /tmp/java.tar.gz
+fi
+/opt/java/bin/java -version
+
+chown -R minecraft:minecraft /opt/minecraft
+
+# 3. Start Minecraft now and after every reboot
+cat > /etc/systemd/system/minecraft.service <<'SERVICE_END'
+[Unit]
+Description=Minecraft server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=minecraft
+WorkingDirectory=/opt/minecraft
+ExecStart=/opt/java/bin/java -Xms1024M -Xmx${memory_mb}M -jar server.jar nogui
+Restart=on-failure
+RestartSec=10
+SuccessExitStatus=0 143
+
+[Install]
+WantedBy=multi-user.target
+SERVICE_END
+
+systemctl daemon-reload
+systemctl enable --now minecraft
+echo "Minecraft $(cat minecraft-version.txt) is starting"
