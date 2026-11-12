@@ -8,7 +8,7 @@ body {
   /* Sky blue, covered in tiny Verity'ies (the picture is made by dots.svg) */
   background-color: #bde0fe;
   background-image: url('./dots.svg');
-  background-size: 400px 80px;
+  background-size: 440px 80px;
 }
 
 main {
@@ -454,3 +454,15 @@ body.scary .now-playing {
   100% { opacity: 0; }
 }
 
+
+/* The logo is a button that leads back to the starting screen */
+.title-link {
+  all: unset;
+  cursor: pointer;
+}
+
+.title-link:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 8px;
+}

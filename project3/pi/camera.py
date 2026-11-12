@@ -14,6 +14,7 @@ import json
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -27,6 +28,53 @@ s3 = session.client("s3")
 polly = session.client("polly")
 
 GREEN, PINK, YELLOW, GRAY, BOLD, RESET = "\033[92m", "\033[95m", "\033[93m", "\033[90m", "\033[1m", "\033[0m"
+
+
+class PhotoCounter:
+    """The LED display from project 5 (Arduino Uno + TM1637 display), if it is plugged in."""
+
+    def __init__(self):
+        self.arduino = None
+        self.lock = threading.Lock()
+        # The Uno clone has a CH340 USB chip (USB id 1a86); the Nano 33 BLE is ttyACM, not ttyUSB
+        ports = sorted(glob.glob("/dev/serial/by-id/*1a86*")) or sorted(glob.glob("/dev/ttyUSB*"))
+        if not ports:
+            return
+        try:
+            import serial  # pyserial
+
+            self.arduino = serial.Serial(ports[0], 9600, timeout=1)
+            time.sleep(2)  # the Uno restarts when the port is opened
+            total = self.photos_in_cloud()
+            self.send(str(total))
+            print(f"{GRAY}  🔢 Photo counter connected: {total} photos so far{RESET}")
+        except Exception as error:
+            print(f"{GRAY}  (Photo counter not working: {error}){RESET}")
+            self.arduino = None
+
+    @staticmethod
+    def photos_in_cloud():
+        total = 0
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=CONFIG["bucket"], Prefix="photos/"):
+            total += page.get("KeyCount", 0)
+        return total
+
+    def send(self, text):
+        if not self.arduino:
+            return
+        with self.lock:
+            try:
+                self.arduino.write(f"{text}\n".encode())
+                self.arduino.readline()  # "COUNT 42"
+            except Exception as error:
+                print(f"{GRAY}  (Photo counter stopped: {error}){RESET}")
+                self.arduino = None
+
+    def plus_one(self):
+        self.send("+")
+
+
+counter = None  # set in main()
 
 
 def find_camera():
@@ -53,6 +101,8 @@ def upload(path, name=None):
     content_type = "image/png" if suffix == ".png" else "image/jpeg"
     s3.upload_file(str(path), CONFIG["bucket"], f"photos/{name}{suffix}",
                    ExtraArgs={"ContentType": content_type})
+    if counter:
+        counter.plus_one()
     return name
 
 
@@ -185,6 +235,9 @@ def main():
     parser.add_argument("--shake", action="store_true", help="take a photo when the Arduino is shaken")
     parser.add_argument("--burst", type=int, metavar="N", help="take N photos, one every second")
     args = parser.parse_args()
+
+    global counter
+    counter = PhotoCounter()
 
     try:
         if args.shake:

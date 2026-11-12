@@ -21,7 +21,21 @@ The Pi sends a line of text over USB:
 | `+` | one more than before |
 | `0` | 0 |
 
-The Arduino answers with `COUNT 42`.
+| `TIME 13:45:10` | 13:45, then keeps running as a clock (colon blinks every second) |
+
+The Arduino answers with `COUNT 42` (or `TIME 13:45:10`). A number, `+` or the
+knob switches from the clock back to the counter.
+
+**The knob:** a KY-040 rotary encoder (from project 6) counts up or down by hand,
+one per click, and **pushing** it jumps up by 100 (`PUSH_JUMP` in the sketch).
+The Arduino then sends `COUNT 43` by itself. The knob's SW pin goes to pin 8.
+
+The display always shows 4 digits (`0042`). Past 9999 it starts again at `0001`.
+
+**The clock:** the Uno has no real clock chip. It counts from the time it was
+given, using its own timer, so it can drift by a few seconds or more per hour.
+Send `TIME` again to correct it. Opening the USB port restarts the Uno, so the
+clock and the count are gone after that until they are sent again.
 
 ## Parts
 
@@ -31,12 +45,13 @@ The Arduino answers with `COUNT 42`.
 
 ## Wiring
 
-| Display | Arduino Uno |
-|---|---|
-| CLK | 3 |
-| DIO | 2 |
-| VCC | 5V |
-| GND | GND |
+| Display | Arduino Uno | | Knob (KY-040) | Arduino Uno |
+|---|---|---|---|---|
+| CLK | 3 | | CLK | 10 |
+| DIO | 2 | | DT | 9 |
+| VCC | 5V | | + | 5V (shared) |
+| GND | GND | | GND | GND |
+| | | | SW | 8 |
 
 The Uno runs on 5 V, so VCC goes to **5V**. The picture is in `wiring.svg`.
 

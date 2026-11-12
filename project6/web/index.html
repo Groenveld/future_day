@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud Knob</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <style>
+    :root {
+      --bg: #0f1226;
+      --panel: #191d3a;
+      --line: #2c3266;
+      --text: #f1f2ff;
+      --muted: #9ba1cc;
+      --hot: #ff8a3d;
+      --cool: #3dd6ff;
+      --ok: #45f0a0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 16px;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% -10%, #2b1f63 0, transparent 55%), var(--bg);
+      color: var(--text);
+      font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+    }
+    main { width: 100%; max-width: 460px; text-align: center; }
+    h1 { margin: 8px 0 4px; font-size: 2rem; }
+    .status { color: var(--muted); margin: 0 0 18px; font-size: 0.95rem; }
+    .status b { color: var(--ok); }
+    .status.offline b { color: var(--hot); }
+
+    .dial-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 20px 16px 24px;
+      transition: box-shadow 0.3s;
+    }
+    .dial-card.pressed { box-shadow: 0 0 0 4px var(--ok), 0 0 60px var(--ok); }
+    .dial-card.changed .number { animation: pop 0.35s ease-out; }
+    @keyframes pop { 40% { transform: scale(1.12); } }
+
+    svg { width: 100%; max-width: 320px; display: block; margin: 0 auto; }
+    .number { font-size: 76px; font-weight: 800; fill: var(--text); transform-box: fill-box; transform-origin: center; }
+    .unit { font-size: 15px; fill: var(--muted); letter-spacing: 2px; }
+    .waiting { color: var(--hot); font-weight: 700; min-height: 1.4em; margin: 8px 0 0; }
+
+    .controls { margin-top: 20px; }
+    input[type=range] { width: 100%; accent-color: var(--cool); height: 36px; }
+    .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    button {
+      font: inherit;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 12px 0;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #0b0e20;
+      color: var(--text);
+      cursor: pointer;
+    }
+    button:active { transform: translateY(1px); }
+    button.big { background: linear-gradient(135deg, var(--cool), #7b5cff); color: #08091a; border: 0; }
+    .how { color: var(--muted); font-size: 0.9rem; line-height: 1.5; margin-top: 22px; text-align: left; }
+    .how code { background: #0b0e20; padding: 1px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>🎛️ Cloud Knob</h1>
+  <p class="status" id="status">Connecting…</p>
+
+  <section class="dial-card" id="card">
+    <svg viewBox="0 0 200 170" aria-hidden="true">
+      <defs>
+        <linearGradient id="grad" x1="0" x2="1">
+          <stop offset="0" stop-color="#3dd6ff"/>
+          <stop offset="1" stop-color="#ff8a3d"/>
+        </linearGradient>
+      </defs>
+      <!-- 270° arc from bottom-left to bottom-right -->
+      <path d="M 43.4 156.6 A 80 80 0 1 1 156.6 156.6" fill="none" stroke="#0b0e20" stroke-width="18" stroke-linecap="round"/>
+      <path id="arc" d="M 43.4 156.6 A 80 80 0 1 1 156.6 156.6" fill="none" stroke="url(#grad)" stroke-width="18" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100"/>
+      <circle id="tip" r="11" fill="#fff" cx="43.4" cy="156.6"/>
+      <text id="number" class="number" x="100" y="118" text-anchor="middle">–</text>
+      <text class="unit" x="100" y="146" text-anchor="middle">OF 100</text>
+    </svg>
+    <p class="waiting" id="waiting"></p>
+
+    <div class="controls">
+      <input type="range" id="slider" min="0" max="100" value="50" aria-label="New value">
+      <div class="buttons">
+        <button type="button" data-step="-10">−10</button>
+        <button type="button" data-step="-1">−1</button>
+        <button type="button" data-step="1">+1</button>
+        <button type="button" data-step="10">+10</button>
+      </div>
+      <div class="buttons" style="grid-template-columns: 1fr 1fr 1fr;">
+        <button type="button" data-set="0">0</button>
+        <button type="button" class="big" data-set="50">50</button>
+        <button type="button" data-set="100">100</button>
+      </div>
+    </div>
+  </section>
+
+  <p class="how">
+    Turn the real knob and watch this page change. Or move the slider here and
+    watch the display on the Arduino change. The value lives in the cloud in a
+    <b>device shadow</b>: the knob writes <code>reported</code>, this page writes
+    <code>desired</code>.
+  </p>
+</main>
+
+<script>
+  const EMPTY_BODY_SHA256 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
+  const numberEl = document.getElementById('number');
+  const arcEl = document.getElementById('arc');
+  const tipEl = document.getElementById('tip');
+  const statusEl = document.getElementById('status');
+  const waitingEl = document.getElementById('waiting');
+  const card = document.getElementById('card');
+  const slider = document.getElementById('slider');
+
+  let shown = null;
+  let lastPressed = null;
+  let sliding = false;
+
+  function drawDial(value) {
+    const v = Math.max(0, Math.min(100, value));
+    arcEl.setAttribute('stroke-dasharray', `${v} 100`);
+    const point = arcEl.getPointAtLength(arcEl.getTotalLength() * v / 100);
+    tipEl.setAttribute('cx', point.x);
+    tipEl.setAttribute('cy', point.y);
+    numberEl.textContent = v;
+  }
+
+  function ago(ms) {
+    const s = Math.round((Date.now() - ms) / 1000);
+    if (s < 5) return 'just now';
+    if (s < 60) return `${s} seconds ago`;
+    if (s < 3600) return `${Math.round(s / 60)} minutes ago`;
+    return `${Math.round(s / 3600)} hours ago`;
+  }
+
+  function render(data) {
+    if (data.value !== null && data.value !== shown) {
+      if (shown !== null) {
+        card.classList.remove('changed');
+        void card.offsetWidth;  // restart the animation
+        card.classList.add('changed');
+      }
+      shown = data.value;
+      drawDial(shown);
+      if (!sliding) slider.value = shown;
+    }
+
+    if (data.pressed && lastPressed !== null && data.pressed !== lastPressed) {
+      card.classList.add('pressed');
+      setTimeout(() => card.classList.remove('pressed'), 900);
+    }
+    lastPressed = data.pressed || 0;
+
+    const online = data.online !== false;
+    statusEl.className = 'status' + (online ? '' : ' offline');
+    statusEl.innerHTML = '';
+    const dot = document.createElement('b');
+    dot.textContent = online ? '● knob online' : '● knob offline';
+    statusEl.append(dot, data.updated ? ` · last turned ${ago(data.updated * 1000)}` : '');
+
+    waitingEl.textContent = data.desired !== null && data.desired !== undefined && data.desired !== data.value
+      ? `Sending ${data.desired} to the knob…`
+      : '';
+  }
+
+  async function refresh() {
+    try {
+      const response = await fetch('api/knob', { cache: 'no-store' });
+      if (!response.ok) throw new Error(response.status);
+      render(await response.json());
+    } catch (error) {
+      statusEl.className = 'status offline';
+      statusEl.textContent = 'Can’t reach the cloud right now…';
+    }
+  }
+
+  async function setValue(value) {
+    value = Math.max(0, Math.min(100, Math.round(value)));
+    waitingEl.textContent = `Sending ${value} to the knob…`;
+    slider.value = value;
+    try {
+      const response = await fetch(`api/knob?value=${value}`, {
+        method: 'POST',
+        headers: { 'x-amz-content-sha256': EMPTY_BODY_SHA256 },  // CloudFront signs the request for the Lambda
+      });
+      if (!response.ok) throw new Error(response.status);
+      render(await response.json());
+    } catch (error) {
+      waitingEl.textContent = 'That didn’t work, try again.';
+    }
+  }
+
+  slider.addEventListener('input', () => { sliding = true; });
+  slider.addEventListener('change', () => { sliding = false; setValue(Number(slider.value)); });
+  document.querySelectorAll('[data-step]').forEach((button) =>
+    button.addEventListener('click', () => setValue((shown ?? 50) + Number(button.dataset.step))));
+  document.querySelectorAll('[data-set]').forEach((button) =>
+    button.addEventListener('click', () => setValue(Number(button.dataset.set))));
+
+  refresh();
+  setInterval(refresh, 1000);
+</script>
+</body>
+</html>

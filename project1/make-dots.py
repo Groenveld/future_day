@@ -14,6 +14,7 @@ NORMAL = [
     ('#ffffff', 'angel'),       # Angelity
     ('#39ff14', 'curious'),     # Curiosity
     ('#7b2cbf', 'serious'),     # Serity Vex
+    ('#ff2a2a', 'sus'),         # Sussity
 ]
 SCARY = [
     ('#a07c00', 'monster'),
@@ -26,6 +27,7 @@ SCARY = [
     ('#3a3a46', 'fallen'),
     ('#0b2e06', 'manyeyes'),
     ('#240046', 'hollow'),
+    ('#5c0000', 'imposter'),
 ]
 
 
@@ -67,6 +69,13 @@ def mini(cx, cy, color, face, horns=False):
               f'<circle cx="{cx+1.2}" cy="{cy-0.6}" r="0.45" fill="#222"/>',
               f'<circle cx="{cx+1.2}" cy="{cy-0.6}" r="1" fill="none" stroke="#d4a017" stroke-width="0.4"/>',
               f'<path d="M{cx-1.2} {cy+1.3} L{cx+1.2} {cy+1.3}" {ln}/>']
+    elif face == 'sus':
+        o += [f'<path d="M{cx-2} {cy-1.2} Q{cx-1.2} {cy-2.2} {cx-0.4} {cy-1.4}" {ln}/>',
+              f'<circle cx="{cx-0.8}" cy="{cy-0.5}" r="0.45" fill="#222"/><circle cx="{cx+1.6}" cy="{cy-0.5}" r="0.45" fill="#222"/>',
+              f'<path d="M{cx+0.5} {cy-1.1} L{cx+2} {cy-1.1}" {ln}/>',
+              f'<path d="M{cx-1} {cy+1.3} Q{cx+0.4} {cy+1.6} {cx+1.5} {cy+0.8}" {ln}/>']
+    elif face == 'imposter':
+        o += [f'<circle cx="{cx-0.8}" cy="{cy-0.5}" r="0.5" fill="#ff1a1a"/><circle cx="{cx+1.6}" cy="{cy-0.5}" r="0.5" fill="#ff1a1a"/>', scary_mouth]
     elif face == 'hollow':
         o += [eyes('#000', 0.75), f'<circle cx="{cx-1.2}" cy="{cy-0.5}" r="0.2" fill="#fff"/><circle cx="{cx+1.2}" cy="{cy-0.5}" r="0.2" fill="#fff"/>', scary_mouth]
     elif face in ('monster', 'heartbreak'):

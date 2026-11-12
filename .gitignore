@@ -7,3 +7,4 @@ dist/
 *.tfstate.*
 .build
 __pycache__/
+certs/

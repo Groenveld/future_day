@@ -66,9 +66,38 @@ arduino-cli compile --fqbn arduino:avr:uno arduino/knob
 arduino-cli upload  --fqbn arduino:avr:uno -p <port> arduino/knob
 ```
 
-## To do
+## Running it
 
-- wire up the encoder and test it
-- Terraform: an IoT thing, a certificate and a policy that lets only the Pi update only its own shadow
-- Pi script: read `VALUE`, update `reported`, listen for `desired`, send `SET` (it keeps the USB connection open, because opening it restarts the Uno)
-- web page: show the value live and set a new one
+```
+terraform init
+terraform apply                 # ~5-15 min the first time (CloudFront)
+terraform output page_login     # username / password for https://knob.groenveld.ch
+```
+
+| File | What it is |
+|---|---|
+| `main.tf` | IoT thing + certificate + policy (only its own shadow), the page (S3 + CloudFront + password), the API Lambda |
+| `lambda/api.py` | `GET /api/knob` reads the shadow, `POST /api/knob?value=70` sets `desired` |
+| `web/index.html` | The page: a live dial (updates every second), slider and buttons |
+| `bridge/knob-bridge.py` | Keeps the knob and the shadow in sync (MQTT over TLS with the certificate) |
+| `bridge/install-on-pi.sh` | Copies the bridge and the certificate to the Pi |
+
+Terraform writes the certificate, private key and endpoint into `certs/` (ignored by git).
+
+**The bridge on the Pi:** `./bridge/install-on-pi.sh`, then on the Pi
+`python3 ~/cloud-knob/knob-bridge.py`.
+**The bridge on the Mac:** needs `pip install paho-mqtt pyserial`, then
+`python3 bridge/knob-bridge.py --dir certs`.
+
+How the two directions work:
+
+- Knob turned → `VALUE 42` → the bridge reports `{"reported": {"value": 42}, "desired": null}`.
+  Clearing `desired` matters: otherwise the old wish would pull the knob back.
+- Page sets 70 → `desired: 70` → IoT Core sends a **delta** → the bridge sends `SET 70`
+  → the Arduino answers `VALUE 70` → reported = 70, the delta is gone.
+- On start, the bridge asks for the shadow and sets the knob to the last value,
+  because opening the USB port restarts the Uno at 50.
+- Pressing the knob reports `pressed` (a timestamp) and the page glows.
+
+The Uno must run `arduino/knob` for this project. The photo counter / clock from
+project 5 is a different sketch, so upload that one again to go back.

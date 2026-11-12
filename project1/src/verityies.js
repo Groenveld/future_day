@@ -815,4 +815,85 @@ export const verityies = [
       ],
     },
   },
+  {
+    name: 'Sussity',
+    color: '#ff2a2a',
+    face: 'sus',
+    size: 120,
+    objectID: 10,
+    infobox: {
+      Color: 'Red',
+      Shape: 'Round (suspiciously round)',
+      Role: 'Prankster and joke teller',
+      'Known for': 'Thinking everything is “sus”',
+      'Best friend': 'Serity Vex',
+      Catchphrase: '“Hmm… that’s kinda sus.”',
+    },
+    intro:
+      'Sussity is a red ball and the joker of the Verity’ies. He is always telling jokes, always side-eyeing somebody, and he thinks absolutely everything is “sus”: the weather, the cake, the moon, and especially Falsity.',
+    sections: [
+      {
+        title: 'Appearance',
+        paragraphs: [
+          'Sussity is bright red, a little brighter than Cruelty, which Cruelty finds very annoying. He has one eyebrow permanently raised, eyes that always look to the side, and a crooked little smirk, as if he knows something you do not.',
+        ],
+      },
+      {
+        title: 'Personality',
+        paragraphs: [
+          'Sussity cannot go five minutes without a joke. Most of them are terrible. His favourite kind are “sus” jokes: “Why did the cookie go to the doctor? Because it felt crummy… and kinda sus.”',
+          'He is suspicious of everything. When Verity says something true, Sussity says “sus”. When Falsity says something false, Sussity says “very sus”. When nobody says anything at all, Sussity says “quiet… too quiet… sus.”',
+          'Under all the jokes, Sussity is actually very good at noticing things. He is usually the first one to spot when something is wrong, even if nobody believes him because he says “sus” about everything.',
+        ],
+      },
+      {
+        title: 'History',
+        paragraphs: [
+          'Sussity joined the Verity’ies by accusing Verity of being a fake Verity. The others laughed so hard that he decided to stay. He has been investigating the group ever since and has written 312 pages of notes. Every page says “sus”.',
+        ],
+      },
+      {
+        title: 'Relationships',
+        paragraphs: [
+          'Sussity’s best friend is Serity Vex, which surprises everybody, because Serity Vex never laughs. But they are a perfect team: Serity Vex asks the mysterious questions, and Sussity suspects everyone until they find the answer. Together they call themselves “the Investigators”. Serity Vex has never laughed at a Sussity joke, but once, after a really bad one, the corner of his mouth moved. Sussity still talks about it.',
+          'Hapity is Sussity’s favourite audience, because Hapity laughs at every joke, even the bad ones (all of them). Falsity and Sussity have a friendly rivalry: Falsity tries to fool him, and Sussity always says “sus” before Falsity even starts.',
+        ],
+      },
+      {
+        title: 'Trivia',
+        list: [
+          'Sussity has said the word “sus” an estimated 48,000 times.',
+          'His favourite joke: “Why don’t eggs tell jokes? They’d crack each other up.” He has told it 900 times.',
+          'He once suspected himself and investigated for three days.',
+        ],
+      },
+    ],
+    scary: {
+      name: 'Sussity the Imposter',
+      color: '#5c0000',
+      face: 'imposter',
+      infobox: {
+        Color: 'Dark blood red',
+        Status: 'Transformed',
+        Powers: 'Pretends to be anyone',
+        Weakness: 'Being caught',
+      },
+      intro:
+        'Sussity the Imposter is the transformed form of Sussity. For years he said everyone was sus. Now he is the sus one: he hides among the others, and nobody knows which Verity’ie is really him.',
+      sections: [
+        {
+          title: 'The transformation',
+          paragraphs: [
+            'His red went dark, his smirk split into a jagged grin, and his side-eyes started to glow. He does not tell jokes anymore. He just watches you, from the side, and whispers: “You’re next… to be suspicious.”',
+          ],
+        },
+        {
+          title: 'Emergency meeting',
+          paragraphs: [
+            'If you ever count one Verity’ie too many, stay calm, do not turn your back, and whatever you do, do not say “sus”.',
+          ],
+        },
+      ],
+    },
+  },
 ];
