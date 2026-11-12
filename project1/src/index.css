@@ -1,0 +1,384 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 16px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  color: #222;
+  /* Sky blue, covered in tiny Verity'ies (the picture is made by dots.svg) */
+  background-color: #bde0fe;
+  background-image: url('./dots.svg');
+  background-size: 360px 80px;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.4rem;
+  color: #fff;
+  text-shadow: 3px 3px 0 #222;
+  margin: 24px 0;
+}
+
+.search {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+}
+
+.search input {
+  font-size: 1.1rem;
+  padding: 6px 10px;
+  border: 3px solid #222;
+  border-radius: 12px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.item {
+  width: 100%;
+  height: 100%;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 6px 6px 0 #222;
+  transition: transform 0.1s;
+}
+
+.item:hover {
+  transform: translate(-2px, -2px) rotate(-1deg);
+}
+
+.item:active {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 #222;
+}
+
+.hint {
+  color: #888;
+  font-style: italic;
+}
+
+.item svg {
+  height: 210px; /* same row height for every card; smaller balls sit centered */
+}
+
+.item h2 {
+  margin: 8px 0;
+}
+
+/* The WikiVerity article when you click a ball */
+.article {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 8px 8px 0 #222;
+  animation: grow 0.4s ease-out;
+  line-height: 1.6;
+  overflow: hidden; /* keeps the floating infobox inside */
+}
+
+.article-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: normal;
+  font-size: 2.2rem;
+  margin: 12px 0 0;
+  border-bottom: 1px solid #a2a9b1;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: #54595d;
+  margin: 4px 0 16px;
+}
+
+.article h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: normal;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #a2a9b1;
+  margin: 24px 0 8px;
+  scroll-margin-top: 16px;
+}
+
+.detail-ball {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* The fact box on the right */
+.infobox {
+  float: right;
+  width: 260px;
+  margin: 0 0 16px 20px;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  padding: 8px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.infobox-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: #ffd23f;
+  padding: 4px;
+  margin-bottom: 8px;
+}
+
+.infobox table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.infobox th,
+.infobox td {
+  padding: 4px;
+  vertical-align: top;
+  border-top: 1px solid #eaecf0;
+}
+
+.infobox th {
+  width: 40%;
+}
+
+/* The contents box */
+.contents {
+  display: inline-block;
+  border: 1px solid #a2a9b1;
+  background: #f8f9fa;
+  padding: 8px 20px 8px 12px;
+  font-size: 0.9rem;
+}
+
+.contents-title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.contents ol {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.article a,
+.link {
+  color: #3366cc;
+  text-decoration: none;
+}
+
+.article a:hover,
+.link:hover {
+  text-decoration: underline;
+}
+
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.back-top {
+  margin-top: 0;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+}
+
+/* On a phone, the infobox goes on top instead of on the right */
+@media (max-width: 600px) {
+  .article {
+    padding: 16px;
+  }
+
+  .infobox {
+    float: none;
+    width: auto;
+    margin: 0 0 16px;
+  }
+}
+
+.back {
+  margin-top: 16px;
+  font: inherit;
+  font-size: 1.1rem;
+  padding: 10px 18px;
+  background: #ffd23f;
+  border: 3px solid #222;
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 #222;
+  cursor: pointer;
+}
+
+.back:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #222;
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Clicking the big ball makes it wiggle */
+.detail-ball:active svg {
+  animation: wiggle 0.25s;
+}
+
+@keyframes wiggle {
+  25% { transform: rotate(-8deg) scale(0.95); }
+  75% { transform: rotate(8deg) scale(0.95); }
+}
+
+/* ---------- The secret ---------- */
+
+/* 1. Falsity spins and glitches over the whole screen */
+.secret {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 0, 40, 0.85);
+  animation: fade-in 0.3s;
+}
+
+.secret-ball {
+  animation: spin-glitch 2.2s ease-in forwards;
+}
+
+.secret-text {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 16px;
+  text-shadow: 3px 0 #ff1a1a, -3px 0 #00e5ff;
+  animation: shake 0.15s infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes spin-glitch {
+  0% { transform: scale(0.2) rotate(0deg); }
+  40% { transform: scale(1) rotate(720deg); }
+  50% { transform: scale(1.1) translateX(-12px); filter: hue-rotate(90deg); }
+  55% { transform: scale(1.1) translateX(12px); filter: invert(1); }
+  60% { transform: scale(1.1); filter: none; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 2px); }
+  50% { transform: translate(3px, -2px); }
+  75% { transform: translate(-2px, -3px); }
+}
+
+/* 2. Total darkness for half a second */
+.darkness {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #000;
+}
+
+/* 3. Scary mode: everything changes */
+body.scary {
+  color: #eee;
+  background-color: #0b0010;
+  background-image: url('./dots-scary.svg');
+  animation: fade-in 1s;
+}
+
+body.scary .title {
+  color: #ff1a1a;
+  text-shadow: 3px 3px 0 #000, 0 0 16px #ff0000;
+  animation: shake 0.3s infinite;
+}
+
+body.scary .item,
+body.scary .article {
+  background: #1a0a1f;
+  color: #eee;
+  border-color: #000;
+  box-shadow: 6px 6px 0 #8b0000;
+}
+
+body.scary .hint {
+  color: #ff4d4d;
+}
+
+body.scary .search input {
+  background: #1a0a1f;
+  color: #eee;
+}
+
+body.scary .back {
+  background: #8b0000;
+  color: #fff;
+  box-shadow: 4px 4px 0 #000;
+}
+
+/* Scary articles */
+body.scary .article h3,
+body.scary .article-title {
+  border-color: #5a0000;
+}
+
+body.scary .tagline {
+  color: #ff4d4d;
+}
+
+body.scary .infobox,
+body.scary .contents {
+  background: #12060f;
+  border-color: #5a0000;
+}
+
+body.scary .infobox-name {
+  background: #8b0000;
+  color: #fff;
+}
+
+body.scary .infobox th,
+body.scary .infobox td {
+  border-color: #2a0a20;
+}
+
+body.scary .article a,
+body.scary .link {
+  color: #ff6b6b;
+}

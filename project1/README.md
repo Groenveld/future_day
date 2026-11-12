@@ -16,9 +16,9 @@ npm run dev      # open http://localhost:5173
 npm run build    # writes the finished site to dist/
 ```
 
-## Putting it online (to do)
+## Putting it online
 
-Terraform will:
+`main.tf` does three things:
 
 1. create an S3 bucket set up for static website hosting
 2. upload the contents of `dist/`
@@ -32,4 +32,6 @@ terraform destroy    # the site is gone
 terraform apply      # and it's back
 ```
 
-Region: `eu-central-1`.
+Region: `eu-central-1`. The bucket is named `zukunftstag-<account number>`, so after `destroy` and `apply` the page is back at the **same address**: he just reloads it on his phone. The page is plain `http://`, which is fine for a phone browser.
+
+Always run `npm run build` first. Without a `dist/` folder, Terraform uploads nothing and the page stays empty.
