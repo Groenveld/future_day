@@ -119,7 +119,7 @@ const App = () => {
       )}
 
       {hint > 0 && (
-        <p key={hint} className="hint" aria-hidden="true">
+        <p key={hint} className="secret-tip" aria-hidden="true">
           click falsity 5 times..
         </p>
       )}
