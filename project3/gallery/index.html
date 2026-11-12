@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What does the AI see?</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁️</text></svg>">
+  <style>
+    :root {
+      --bg: #0d1021;
+      --panel: #171b33;
+      --line: #2a3060;
+      --text: #eef0ff;
+      --muted: #9aa0c8;
+      --neon: #39ff9f;
+      --pink: #ff4fd8;
+      --yellow: #ffe14f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 16px;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 0%, #24135a 0, transparent 45%),
+        radial-gradient(circle at 90% 30%, #0b3a4a 0, transparent 40%),
+        var(--bg);
+      color: var(--text);
+      font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+    }
+    main { max-width: 1100px; margin: 0 auto; }
+
+    header { display: flex; align-items: center; gap: 14px; margin: 8px 0 20px; }
+    .eye {
+      flex: none;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #000 0 22%, var(--neon) 23% 44%, #fff 45%);
+      box-shadow: 0 0 24px var(--neon);
+      animation: look 4s ease-in-out infinite;
+    }
+    @keyframes look {
+      0%, 100% { background-position: 0 0; transform: scaleY(1); }
+      48% { transform: scaleY(1); }
+      50% { transform: scaleY(0.1); }
+      52% { transform: scaleY(1); }
+    }
+    h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2.6rem); letter-spacing: -0.5px; }
+    h1 span { color: var(--neon); text-shadow: 0 0 14px rgba(57, 255, 159, 0.6); }
+    .status { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--neon); margin-right: 6px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 50% { opacity: 0.25; } }
+
+    .latest {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+    }
+    .latest.fresh { animation: flash 1.2s ease-out; }
+    @keyframes flash { 0% { box-shadow: 0 0 0 4px var(--neon), 0 0 60px var(--neon); } 100% { box-shadow: none; } }
+    .photo { position: relative; }
+    .photo img { width: 100%; border-radius: 14px; display: block; background: #000; }
+    .badge {
+      position: absolute; top: 10px; left: 10px;
+      background: var(--neon); color: #000; font-weight: 800;
+      padding: 4px 10px; border-radius: 999px; font-size: 0.85rem;
+    }
+    .time { color: var(--muted); font-size: 0.85rem; margin-top: 8px; }
+
+    .bubble {
+      position: relative;
+      background: var(--yellow); color: #1a1a1a;
+      border-radius: 16px; padding: 14px 16px;
+      font-size: 1.15rem; font-weight: 700; line-height: 1.35;
+      margin-bottom: 18px;
+    }
+    .bubble::before { content: "🤖 The AI says:"; display: block; font-size: 0.8rem; font-weight: 800; opacity: 0.6; margin-bottom: 4px; }
+
+    h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 8px; }
+    .label { margin: 0 0 8px; }
+    .label-top { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 3px; }
+    .label-top b { font-weight: 700; }
+    .label-top span { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .bar { height: 8px; border-radius: 999px; background: #0a0d1c; overflow: hidden; }
+    .bar div { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--pink), var(--neon)); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { background: #0a0d1c; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: 0.9rem; }
+    .chip.yes { border-color: var(--neon); color: var(--neon); }
+    .face { margin-bottom: 10px; }
+    .face-title { font-weight: 700; margin-bottom: 6px; }
+    .sign { font-family: ui-monospace, monospace; background: #fff; color: #000; padding: 4px 10px; border-radius: 6px; display: inline-block; margin: 0 6px 6px 0; }
+
+    .history { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 8px; }
+    .thumb {
+      background: var(--panel); border: 2px solid var(--line); border-radius: 14px;
+      padding: 0; overflow: hidden; cursor: pointer; text-align: left; color: var(--text);
+      font: inherit;
+    }
+    .thumb.selected { border-color: var(--neon); }
+    .thumb img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: #000; }
+    .thumb p { margin: 0; padding: 6px 8px; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .empty { text-align: center; padding: 60px 16px; background: var(--panel); border: 1px dashed var(--line); border-radius: 20px; }
+    .empty .big { font-size: 3rem; }
+
+    @media (max-width: 720px) {
+      .latest { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eye" aria-hidden="true"></div>
+    <div>
+      <h1>What does the <span>AI</span> see?</h1>
+      <p class="status"><span class="dot"></span><span id="status">Waiting for photos…</span></p>
+    </div>
+  </header>
+
+  <div id="latest"></div>
+
+  <h2 id="history-title" hidden>All photos</h2>
+  <div class="history" id="history"></div>
+</main>
+
+<script>
+  const latestEl = document.getElementById('latest');
+  const historyEl = document.getElementById('history');
+  const statusEl = document.getElementById('status');
+  const historyTitle = document.getElementById('history-title');
+
+  let photos = [];
+  let selected = null;   // the photo shown big; null = always the newest
+  let newestSeen;       // undefined until the first load
+
+  // Small helper to build HTML elements safely (text never becomes HTML)
+  function el(tag, attrs = {}, ...children) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs)) {
+      if (key === 'class') node.className = value;
+      else if (key === 'onclick') node.onclick = value;
+      else node.setAttribute(key, value);
+    }
+    for (const child of children.flat()) {
+      if (child != null) node.append(child);
+    }
+    return node;
+  }
+
+  function timeText(iso) {
+    return new Date(iso).toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  function yesNo(label, value) {
+    return el('span', { class: 'chip' + (value ? ' yes' : '') }, (value ? '✓ ' : '✗ ') + label);
+  }
+
+  function renderLatest(photo, isNewest, isFresh) {
+    const labels = photo.labels.length
+      ? photo.labels.map((label) =>
+          el('div', { class: 'label' },
+            el('div', { class: 'label-top' }, el('b', {}, label.name), el('span', {}, label.confidence.toFixed(0) + '% sure')),
+            el('div', { class: 'bar' }, el('div', { style: `width:${label.confidence}%` }))
+          ))
+      : [el('p', {}, 'Nothing at all. The AI is confused!')];
+
+    const faces = photo.faces.map((face, i) =>
+      el('div', { class: 'face' },
+        el('div', { class: 'face-title' }, `${photo.faces.length > 1 ? `Face ${i + 1}` : 'Face'}: about ${face.age_low}–${face.age_high} years, looks ${face.feeling}`),
+        el('div', { class: 'chips' },
+          yesNo('smiling', face.smiling),
+          yesNo('glasses', face.glasses),
+          yesNo('sunglasses', face.sunglasses),
+          yesNo('beard', face.beard),
+          yesNo('eyes open', face.eyes_open),
+          yesNo('mouth open', face.mouth_open)
+        )
+      ));
+
+    const card = el('section', { class: 'latest' + (isFresh ? ' fresh' : '') },
+      el('div', { class: 'photo' },
+        el('img', { src: photo.photo, alt: photo.sentence }),
+        isNewest ? el('span', { class: 'badge' }, 'NEWEST') : null,
+        el('div', { class: 'time' }, timeText(photo.time))
+      ),
+      el('div', {},
+        el('div', { class: 'bubble' }, photo.sentence),
+        el('h2', {}, 'Things the AI found'),
+        labels,
+        faces.length ? el('h2', {}, 'Faces') : null,
+        faces,
+        photo.text.length ? el('h2', {}, 'Text it can read') : null,
+        photo.text.map((line) => el('span', { class: 'sign' }, line))
+      )
+    );
+    latestEl.replaceChildren(card);
+  }
+
+  function render(isFresh) {
+    if (!photos.length) {
+      latestEl.replaceChildren(el('div', { class: 'empty' },
+        el('div', { class: 'big' }, '📷'),
+        el('p', {}, 'No photos yet. Take one with the Raspberry Pi!')
+      ));
+      historyEl.replaceChildren();
+      historyTitle.hidden = true;
+      return;
+    }
+    const shown = photos.find((p) => p.photo === selected) || photos[0];
+    renderLatest(shown, shown === photos[0], isFresh);
+
+    historyTitle.hidden = photos.length < 2;
+    historyEl.replaceChildren(...(photos.length < 2 ? [] : photos.map((photo) =>
+      el('button', {
+        class: 'thumb' + (photo === shown ? ' selected' : ''),
+        type: 'button',
+        onclick: () => {
+          selected = photo === photos[0] ? null : photo.photo;
+          render(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+      },
+        el('img', { src: photo.photo, alt: '', loading: 'lazy' }),
+        el('p', {}, photo.labels.slice(0, 3).map((l) => l.name).join(', ') || '???')
+      )
+    )));
+  }
+
+  async function refresh() {
+    try {
+      const response = await fetch('results/index.json', { cache: 'no-store' });
+      if (response.status === 404 || response.status === 403) {
+        photos = [];
+      } else if (response.ok) {
+        photos = await response.json();
+      } else {
+        throw new Error(response.status);
+      }
+      const newest = photos[0]?.photo ?? null;
+      const isFresh = newestSeen !== undefined && newest !== newestSeen;
+      if (newest !== newestSeen) {
+        if (isFresh) selected = null;  // jump to the new photo
+        newestSeen = newest;
+        render(isFresh);
+      }
+      statusEl.textContent = photos.length
+        ? `${photos.length} photo${photos.length === 1 ? '' : 's'} · watching for new ones`
+        : 'Waiting for photos…';
+    } catch (error) {
+      statusEl.textContent = 'Can’t reach the cloud right now, trying again…';
+    }
+  }
+
+  refresh();
+  setInterval(refresh, 3000);
+</script>
+</body>
+</html>
