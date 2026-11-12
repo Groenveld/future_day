@@ -6,27 +6,46 @@ const App = () => {
   const [selectedID, setSelectedID] = React.useState(null);
   const [isScary, setIsScary] = React.useState(false);
   const [phase, setPhase] = React.useState(null); // null, 'secret' or 'dark'
-  const clickTimes = React.useRef([]);
+  const clicks = React.useRef({ objectID: null, times: [] });
+  const song = React.useRef(null);
+  const [songState, setSongState] = React.useState('off'); // 'off' or 'playing'
 
   // In scary mode, every ball uses its transformed form
   const balls = isScary
     ? verityies.map((ball) => ({ ...ball, ...ball.scary }))
     : verityies;
 
-  // The secret: click Falsity (objectID 1) 5 times within 3 seconds
+  // Secrets: click the same ball 5 times within 3 seconds
+  //   Verity  (objectID 0) -> plays or stops the song
+  //   Falsity (objectID 1) -> the scary transformation
   const countClick = (objectID) => {
-    if (objectID !== 1) {
-      clickTimes.current = [];
-      return;
-    }
     const now = Date.now();
-    clickTimes.current = [
-      ...clickTimes.current.filter((time) => now - time < 3000),
-      now,
-    ];
-    if (clickTimes.current.length >= 5) {
-      clickTimes.current = [];
-      startSecret();
+    const sameBall = clicks.current.objectID === objectID;
+    const times = sameBall ? clicks.current.times.filter((time) => now - time < 3000) : [];
+    clicks.current = { objectID, times: [...times, now] };
+
+    if (clicks.current.times.length >= 5) {
+      clicks.current = { objectID: null, times: [] };
+      if (objectID === 0) toggleSong();
+      if (objectID === 1) startSecret();
+    }
+  };
+
+  // "It's me, it's Verity" by Horror Skunx. The file goes in public/its-me-its-verity.mp3
+  const toggleSong = () => {
+    if (!song.current) {
+      song.current = new Audio(`${import.meta.env.BASE_URL}its-me-its-verity.mp3`);
+      song.current.loop = true;
+    }
+    if (songState === 'playing') {
+      song.current.pause();
+      song.current.currentTime = 0;
+      setSongState('off');
+    } else {
+      song.current
+        .play()
+        .then(() => setSongState('playing'))
+        .catch(() => setSongState('off')); // no song file yet: just do nothing
     }
   };
 
@@ -80,11 +99,32 @@ const App = () => {
         </>
       )}
 
+      {songState !== 'off' && (
+        <NowPlaying
+          onStop={() => {
+            song.current?.pause();
+            setSongState('off');
+          }}
+        />
+      )}
+
       {phase === 'secret' && <SecretAnimation ball={falsity} isScary={isScary} />}
       {phase === 'dark' && <div className="darkness" />}
     </main>
   );
 };
+
+// A little bar at the bottom while the song plays
+const NowPlaying = ({ onStop }) => (
+  <div className="now-playing" role="status">
+    <span>
+      <span className="note">♪</span> It’s me, it’s Verity – Horror Skunx
+    </span>
+    <button type="button" onClick={onStop} aria-label="Stop">
+      ■
+    </button>
+  </div>
+);
 
 // Falsity spins and glitches in the middle of the screen
 const SecretAnimation = ({ ball, isScary }) => (
@@ -225,11 +265,11 @@ const Article = ({
   );
 };
 
-const scaryFaces = ['monster', 'evilcool', 'heartbreak', 'fallen', 'manyeyes'];
+const scaryFaces = ['monster', 'evilcool', 'heartbreak', 'fallen', 'manyeyes', 'hollow'];
 
 // Draws one ball with a face.
-// Normal faces: happy, sly, angry, cool, love, laugh, angel, curious
-// Scary faces: monster, evilcool, heartbreak, fallen, manyeyes
+// Normal faces: happy, sly, angry, cool, love, laugh, angel, curious, serious
+// Scary faces: monster, evilcool, heartbreak, fallen, manyeyes, hollow
 const Ball = ({ color, face, size, horns }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden="true">
     <defs>
@@ -352,6 +392,40 @@ const Face = ({ face }) => {
         <path d={crack} transform="translate(64 36)" stroke="#ff4d6d" strokeWidth="1.2" fill="none" />
         <path d="M30 34 L42 30" {...line} />
         <path d="M70 34 L58 30" {...line} />
+        {teeth}
+      </>
+    );
+  }
+
+  if (face === 'serious') {
+    return (
+      <>
+        {/* narrowed, thinking eyes */}
+        <path d="M26 36 L46 38" {...line} />
+        <path d="M54 38 L74 36" {...line} />
+        <path d="M30 44 Q37 40 44 44 Q37 47 30 44 Z" fill="#222" />
+        <circle cx="63" cy="44" r="4" fill="#222" />
+        {/* golden monocle with a chain */}
+        <circle cx="63" cy="44" r="10" fill="#fff" fillOpacity="0.25" stroke="#d4a017" strokeWidth="3" />
+        <path d="M71 50 Q80 62 76 78" fill="none" stroke="#d4a017" strokeWidth="1.5" />
+        {/* perfectly straight mouth */}
+        <path d="M38 66 L62 66" {...line} />
+      </>
+    );
+  }
+
+  if (face === 'hollow') {
+    return (
+      <>
+        <path d="M24 34 L46 40" {...line} strokeWidth="4" />
+        <path d="M76 34 L54 40" {...line} strokeWidth="4" />
+        <ellipse cx="37" cy="47" rx="7" ry="9" fill="#000" />
+        <ellipse cx="63" cy="47" rx="7" ry="9" fill="#000" />
+        <circle cx="37" cy="49" r="1.5" fill="#fff" filter="url(#glow)" />
+        <circle cx="63" cy="49" r="1.5" fill="#fff" filter="url(#glow)" />
+        {/* cracked monocle */}
+        <circle cx="63" cy="47" r="12" fill="none" stroke="#6b5200" strokeWidth="2.5" />
+        <path d="M56 38 L62 46 L58 50 L66 58" fill="none" stroke="#bbb" strokeWidth="1" />
         {teeth}
       </>
     );

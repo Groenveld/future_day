@@ -18,46 +18,14 @@ variable "site_dir" {
   default = "dist"
 }
 
-# Bucket names must be unique worldwide, so we add the AWS account number.
-# It stays the same, so the address is the same again after destroy + apply.
+# The bucket, HTTPS and the address are set up once in infra/ and always stay.
+# This file only puts the website files into that bucket, so:
+#   terraform destroy  -> the files are deleted and the website is gone
+#   terraform apply    -> the files are uploaded again and the website is back
 data "aws_caller_identity" "me" {}
 
-resource "aws_s3_bucket" "site" {
-  bucket        = "zukunftstag-${data.aws_caller_identity.me.account_id}"
-  force_destroy = true # lets `terraform destroy` delete it even with files inside
-}
-
-resource "aws_s3_bucket_website_configuration" "site" {
-  bucket = aws_s3_bucket.site.id
-  index_document {
-    suffix = "index.html"
-  }
-  error_document {
-    key = "index.html"
-  }
-}
-
-# Allow everyone on the internet to read the page.
-resource "aws_s3_bucket_public_access_block" "site" {
-  bucket                  = aws_s3_bucket.site.id
-  block_public_acls       = true
-  ignore_public_acls      = true
-  block_public_policy     = false
-  restrict_public_buckets = false
-}
-
-resource "aws_s3_bucket_policy" "public_read" {
-  bucket     = aws_s3_bucket.site.id
-  depends_on = [aws_s3_bucket_public_access_block.site]
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = "*"
-      Action    = "s3:GetObject"
-      Resource  = "${aws_s3_bucket.site.arn}/*"
-    }]
-  })
+data "aws_s3_bucket" "site" {
+  bucket = "wikiverity-${data.aws_caller_identity.me.account_id}"
 }
 
 # Upload every file in dist/ with the right content type.
@@ -78,12 +46,15 @@ locals {
     txt   = "text/plain"
     woff  = "font/woff"
     woff2 = "font/woff2"
+    mp3   = "audio/mpeg"
+    wav   = "audio/wav"
+    ogg   = "audio/ogg"
   }
 }
 
 resource "aws_s3_object" "files" {
   for_each     = fileset(local.site_path, "**")
-  bucket       = aws_s3_bucket.site.id
+  bucket       = data.aws_s3_bucket.site.id
   key          = each.value
   source       = "${local.site_path}/${each.value}"
   etag         = filemd5("${local.site_path}/${each.value}")
@@ -92,5 +63,5 @@ resource "aws_s3_object" "files" {
 
 output "website_url" {
   description = "Open this on your phone!"
-  value       = "http://${aws_s3_bucket_website_configuration.site.website_endpoint}"
+  value       = "https://wikiverity.groenveld.ch"
 }

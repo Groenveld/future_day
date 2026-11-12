@@ -736,4 +736,83 @@ export const verityies = [
       ],
     },
   },
+  {
+    name: 'Serity Vex',
+    color: '#7b2cbf',
+    face: 'serious',
+    size: 120,
+    objectID: 9,
+    infobox: {
+      Color: 'Purple',
+      Shape: 'Round (seriously)',
+      Role: 'Mystery expert',
+      'Known for': 'Riddles and never smiling',
+      'Best friend': 'Curiosity',
+      Catchphrase: '“Think about it.”',
+    },
+    intro:
+      'Serity Vex is a purple ball and the most serious member of the Verity’ies. He wears a monocle, speaks in riddles and has never been seen smiling, not even once. His second name, Vex, means “to puzzle or annoy”, and he does both.',
+    sections: [
+      {
+        title: 'Appearance',
+        paragraphs: [
+          'Serity Vex is deep purple, with narrowed, thoughtful eyes and a perfectly straight mouth. Over his right eye he wears a shiny golden monocle, which he polishes whenever he is thinking, which is all the time.',
+        ],
+      },
+      {
+        title: 'Personality',
+        paragraphs: [
+          'Serity Vex is calm, clever and extremely serious. He answers almost every question with a riddle. When Hapity asked him what his favourite food was, he replied: “What has a skin, a heart and no bones?” (The answer was a peach. It took Hapity four days.)',
+          'He is not grumpy like Cruelty. He is just very, very serious. He says that smiling “wastes energy that could be used for thinking”.',
+        ],
+      },
+      {
+        title: 'History',
+        paragraphs: [
+          'Nobody remembers Serity Vex joining the Verity’ies. One day he was simply there, sitting at the edge of the group, as if he had always been there. When Verity asked him how long he had been a member, he said: “Longer than you think, shorter than you fear.”',
+        ],
+      },
+      {
+        title: 'Relationships',
+        paragraphs: [
+          'Serity Vex gets along best with Curiosity, because she loves questions and he loves giving answers that are really more questions. He enjoys puzzling Falsity, because Falsity can never tell if Serity Vex is telling the truth either. Verity is the only Verity’ie who has ever solved one of his riddles on the first try.',
+        ],
+      },
+      {
+        title: 'Trivia',
+        list: [
+          'Serity Vex knows 1,001 riddles. He has only ever told 600 of them.',
+          'His monocle is not for seeing. It is “for looking serious”.',
+          'Lovity has tried to make him smile almost as many times as she has tried with Cruelty.',
+        ],
+      },
+    ],
+    scary: {
+      name: 'Serity Vex the Riddle Wraith',
+      color: '#240046',
+      face: 'hollow',
+      infobox: {
+        Color: 'Void purple',
+        Status: 'Transformed',
+        Powers: 'Traps you in riddles',
+        Weakness: 'The right answer',
+      },
+      intro:
+        'Serity Vex the Riddle Wraith is the transformed form of Serity Vex. His riddles used to be annoying. Now they are a trap. Anyone who cannot answer one is stuck with him forever.',
+      sections: [
+        {
+          title: 'The transformation',
+          paragraphs: [
+            'His purple turned as dark as an empty sky, his monocle cracked, and his eyes became two hollow black holes with tiny white lights deep inside.',
+          ],
+        },
+        {
+          title: 'The last riddle',
+          paragraphs: [
+            '“The more you take, the more you leave behind. What am I?” If you know the answer, you are safe. If you do not... footsteps.',
+          ],
+        },
+      ],
+    },
+  },
 ];
