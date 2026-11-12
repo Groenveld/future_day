@@ -9,6 +9,8 @@ const App = () => {
   const clicks = React.useRef({ objectID: null, times: [] });
   const song = React.useRef(null);
   const [songState, setSongState] = React.useState('off'); // 'off' or 'playing'
+  const [hint, setHint] = React.useState(0); // 0 = hidden, otherwise a counter that restarts the fade
+  const hintTimer = React.useRef(null);
 
   // In scary mode, every ball uses its transformed form
   const balls = isScary
@@ -19,6 +21,7 @@ const App = () => {
   //   Verity  (objectID 0) -> plays or stops the song
   //   Falsity (objectID 1) -> the scary transformation
   const countClick = (objectID) => {
+    showHint();
     const now = Date.now();
     const sameBall = clicks.current.objectID === objectID;
     const times = sameBall ? clicks.current.times.filter((time) => now - time < 3000) : [];
@@ -29,6 +32,13 @@ const App = () => {
       if (objectID === 0) toggleSong();
       if (objectID === 1) startSecret();
     }
+  };
+
+  // A see-through tip that fades away after 3 seconds
+  const showHint = () => {
+    setHint((count) => count + 1);
+    clearTimeout(hintTimer.current);
+    hintTimer.current = setTimeout(() => setHint(0), 3000);
   };
 
   // "It's me, it's Verity" by Horror Skunx. The file goes in public/its-me-its-verity.mp3
@@ -106,6 +116,12 @@ const App = () => {
             setSongState('off');
           }}
         />
+      )}
+
+      {hint > 0 && (
+        <p key={hint} className="hint" aria-hidden="true">
+          click falsity 5 times..
+        </p>
       )}
 
       {phase === 'secret' && <SecretAnimation ball={falsity} isScary={isScary} />}

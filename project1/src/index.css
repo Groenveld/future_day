@@ -424,3 +424,28 @@ body.scary .now-playing {
   color: #fff;
   box-shadow: 4px 4px 0 #000;
 }
+
+/* The tip that shows up after every click */
+.hint {
+  position: fixed;
+  left: 50%;
+  bottom: 80px;
+  transform: translateX(-50%);
+  z-index: 6;
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-style: italic;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: hint-fade 3s ease-out forwards;
+}
+
+@keyframes hint-fade {
+  0%   { opacity: 0; }
+  10%  { opacity: 0.7; }
+  70%  { opacity: 0.7; }
+  100% { opacity: 0; }
+}
